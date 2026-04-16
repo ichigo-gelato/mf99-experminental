@@ -82,15 +82,43 @@ function construstTimeTable(timeTable, talksData) {
 
 }
 
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
     var DayTable1 = construstTimeTable(day1, data);
     var DayTable2 = construstTimeTable(day2, data);
 
-    var template = $('#template').html();
-    Mustache.parse(template);
+    var headlineElement = document.querySelector('.article-headline');
+    if (!headlineElement) {
+        return;
+    }
 
-    var rendered1 = Mustache.render(template, { table: DayTable1, header: "5/24 (土)" });
-    var rendered2 = Mustache.render(template, { table: DayTable2, header: "5/25 (日)" });
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
 
-    $('.article-headline').html(rendered1 + "<br />" + rendered2);
+    function renderTable(header, tableData) {
+        var rows = tableData.map(function (row) {
+            return ''
+                + '<tr>'
+                + '<td class=time valign="top">' + escapeHtml(row.time || '') + '</td>'
+                + '<td class=title valign="top">' + (row.title || '') + '</td>'
+                + '<td class=name valign="top">' + escapeHtml(row.name || '') + '</td>'
+                + '</tr>';
+        }).join('');
+
+        return ''
+            + '<h3>' + escapeHtml(header) + '</h3>'
+            + '<table class=time-table>'
+            + rows
+            + '</table>';
+    }
+
+    var rendered1 = renderTable("5/24 (土)", DayTable1);
+    var rendered2 = renderTable("5/25 (日)", DayTable2);
+
+    headlineElement.innerHTML = rendered1 + "<br />" + rendered2;
 });
