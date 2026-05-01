@@ -22,12 +22,6 @@
   <meta property="og:image" content="https://ut-10min.github.io/mf99/img/mf_min.png">
   <meta property="og:site_name" content="2025年度五月祭「10分で伝えます！東大研究最前線」">
 
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-
-  <!-- Mustache -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-
   <!-- data -->
   <script src="js/data.js?202511162152"></script>
 
@@ -44,24 +38,6 @@
       gtag('config', 'UA-123778672-1');
     </script>-->
 
-  <script id="template" type="x-tmpl-mustache">
-<dl>
-{{#talks}}
-<a name="{{title}}" class=anchor></a>
-<dt class=talk-header><span class=title>{{title}}</span>
-<br />
-<span class=name>{{name}}</span>
-{{#major}}
-<span class=major>（{{affiliation}}｜専門：{{major}}）</span>
-{{/major}}
-{{#chairperson}}
-<span class=major>（進行：{{chairperson}}）</span>
-{{/chairperson}}
-</dt>
-<dd class=talk-abs>{{abstract}}<br>{{info}}</dd>
-{{/talks}}
-</dl>
-    </script>
 </head>
 
 <body>
@@ -77,6 +53,10 @@
   <div class="container">
     <div class="full-article" id="article-talks-intro">
       <h2>講演一覧</h2>
+      <p>
+        各講演のタイトル・登壇者・概要を掲載しています。<br>
+        最新情報は随時反映されます。
+      </p>
       <div class="article-headline">
         <h3>現在準備中です。</h3>
       </div>
