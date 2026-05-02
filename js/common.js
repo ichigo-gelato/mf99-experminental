@@ -21,35 +21,20 @@ function setHref(selector, value) {
 function setDateTimeText(value) {
   document.querySelectorAll('[data-config="datesText"]').forEach((el) => {
     if (!value) return;
-
-    let parts = value.split("／").filter(Boolean);
-
-    // Backward compatibility:
-    // "2026年5月16日（土）10:00–18:00／5月17日（日）10:00–17:00"
-    // でも、"2026年" と各日程行に分解する。
-    let year = "";
-    if (parts.length > 0) {
-      const match = parts[0].match(/^([0-9]{4}年)(.*)$/);
-      if (match) {
-        year = match[1];
-        parts[0] = match[2];
-      }
+    const parts = value.split("／");
+    if (parts.length >= 2) {
+      const first = parts[0].replace(/^([0-9]{4}年)/, "$1|").split("|");
+      const year = first.length > 1 ? first[0] : "";
+      const firstMain = first.length > 1 ? first[1] : parts[0].replace(/^2026年/, "");
+      const secondMain = parts[1].replace(/^([0-9]{4}年)/, "");
+      el.innerHTML = `
+        <span class="date-year">${year}</span><span class="date-main">${firstMain}</span>
+        <span class="date-year date-year-empty" aria-hidden="true"></span><span class="date-main">${secondMain}</span>
+      `;
+      el.classList.add("date-time-lines");
+    } else {
+      el.textContent = value;
     }
-
-    if (!year && parts[0] && /^[0-9]{4}年$/.test(parts[0])) {
-      year = parts.shift();
-    }
-
-    const lines = [];
-    if (year) {
-      lines.push(`<span class="date-year-full">${year}</span>`);
-    }
-    parts.forEach((part) => {
-      lines.push(`<span class="date-main">${part}</span>`);
-    });
-
-    el.innerHTML = lines.join("");
-    el.classList.add("date-time-lines");
   });
 }
 
