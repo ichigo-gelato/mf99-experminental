@@ -859,3 +859,990 @@ body {
     font-size: 1rem;
   }
 }
+
+
+/* 今回の追加修正：動画幅、運営メンバー、タイムテーブル詳細枠、タイムテーブル文字サイズ調整 */
+#article-movie .video-container {
+  max-width: min(560px, 100%);
+}
+
+.organizer-members {
+  max-width: 760px;
+  margin: 18px auto 0;
+}
+
+.organizer-members h3 {
+  max-width: none;
+  margin: 18px 0 8px;
+  font-size: 135%;
+}
+
+.organizer-members ul {
+  max-width: none;
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+.organizer-members li {
+  font-size: 115%;
+  line-height: 1.8;
+}
+
+/* タイムテーブルページだけ全体を2周り小さくする */
+.page-timetable .full-article p,
+.page-timetable .full-article li,
+.page-timetable .full-article dd,
+.page-timetable .full-article dt {
+  font-size: 110%;
+}
+
+.page-timetable .section-note {
+  font-size: 110%;
+}
+
+.page-timetable .timetable-table {
+  font-size: 100%;
+}
+
+.page-timetable .timetable-table th,
+.page-timetable .timetable-table td {
+  padding: 12px 12px;
+}
+
+.page-timetable .timetable-table tbody th {
+  font-size: 100%;
+}
+
+.page-timetable .talk-toggle {
+  min-height: 72px;
+  padding: 10px 12px;
+}
+
+.page-timetable .slot-title {
+  font-size: 105%;
+}
+
+.page-timetable .slot-speaker {
+  font-size: 95%;
+}
+
+.page-timetable .slot-open-label {
+  font-size: 80%;
+}
+
+.page-timetable .mobile-slot {
+  font-size: 100%;
+}
+
+.page-timetable .mobile-time {
+  font-size: 100%;
+}
+
+/* 詳細を開いたとき、題目・講演者・所属・要旨が同じ枠内に入っていることを明確化 */
+.slot-detail {
+  border: 2px solid var(--color-primitive-blue-900);
+  border-radius: 12px;
+  background: #f7faff;
+  padding: 14px;
+  box-shadow: 0 4px 12px rgba(0, 85, 173, 0.12);
+}
+
+.slot-detail-inner {
+  border-left: 6px solid var(--color-primitive-blue-900);
+  padding: 10px 12px 10px 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.slot-detail-kicker {
+  margin: 0 0 4px;
+  font-size: 85% !important;
+  font-weight: bold;
+  color: var(--color-primitive-blue-900);
+  letter-spacing: 0.04em;
+}
+
+.slot-detail-title {
+  max-width: none !important;
+  margin: 0 0 8px !important;
+  color: var(--color-primitive-blue-1200);
+  font-size: 125% !important;
+  line-height: 1.35;
+}
+
+.slot-detail-speaker,
+.slot-detail-affiliation,
+.slot-detail-abstract {
+  max-width: none !important;
+  margin: 6px 0 !important;
+  font-size: 100% !important;
+  line-height: 1.65 !important;
+}
+
+@media screen and (max-width: 639px) {
+  #article-movie .video-container {
+    max-width: 100%;
+  }
+
+  .page-timetable .slot-title {
+    font-size: 1.05rem;
+  }
+
+  .page-timetable .slot-speaker {
+    font-size: 0.95rem;
+  }
+
+  .page-timetable .slot-open-label {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* 最終調整：日時表示・動画比率・講演一覧の名前/所属サイズ */
+.date-time-lines {
+  display: grid !important;
+  grid-template-columns: max-content max-content;
+  column-gap: 0.5em;
+  row-gap: 0.2em;
+  align-items: baseline;
+}
+
+.date-time-lines span {
+  display: contents;
+}
+
+/* "2026年5月16日（土）10:00–18:00" を日付と時間に分けずとも、等幅寄りで日付先頭を揃える */
+.date-time-lines span::before {
+  content: "";
+}
+
+/* 紹介動画は16:9を維持しつつ、画面幅に応じて自然に可変 */
+#article-movie .video-container {
+  width: min(56vw, 560px);
+  max-width: 100%;
+  padding-bottom: min(31.5vw, 315px); /* 56vw * 9/16。最大560px幅なら315px高 */
+}
+
+@media screen and (max-width: 900px) {
+  #article-movie .video-container {
+    width: min(82vw, 560px);
+    padding-bottom: min(46.125vw, 315px);
+  }
+}
+
+@media screen and (max-width: 639px) {
+  #article-movie .video-container {
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
+}
+
+/* talks.html: 名前を二回り大きく、所属・専門を一回り小さく */
+.talk-card .talk-meta {
+  font-size: 105%;
+  line-height: 1.55;
+}
+
+.talk-card .talk-meta b {
+  font-size: 180%;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+@media screen and (max-width: 639px) {
+  .talk-card .talk-meta {
+    font-size: 1rem;
+  }
+
+  .talk-card .talk-meta b {
+    font-size: 1.7rem;
+  }
+}
+
+
+/* 追加調整：直近の文字サイズ変更はPC版のみに限定し、スマホ側は従来の見やすいサイズへ戻す */
+
+/* talks.html: PCでは講演者名をタイトル程度、所属・専門は小さめ */
+@media screen and (min-width: 640px) {
+  .talk-card h3 {
+    font-size: 1.75rem;
+  }
+
+  .talk-card .talk-meta {
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .talk-card .talk-meta b {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+}
+
+/* talks.html: スマホではタイトルと講演者名を同程度にし、大きくなりすぎないようにする */
+@media screen and (max-width: 639px) {
+  .talk-card h3,
+  .talk-card .talk-meta b {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  .talk-card .talk-meta {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+}
+
+/* タイムテーブルの小型化はPC版だけに限定し、スマホ版は以前の大きめ表示に戻す */
+@media screen and (max-width: 639px) {
+  .page-timetable .full-article p,
+  .page-timetable .full-article li,
+  .page-timetable .full-article dd,
+  .page-timetable .full-article dt {
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  .page-timetable .section-note {
+    font-size: 1.1rem;
+    line-height: 1.75;
+  }
+
+  .page-timetable .mobile-slot {
+    font-size: 1.15rem;
+  }
+
+  .page-timetable .mobile-time {
+    font-size: 1.1rem;
+  }
+
+  .page-timetable .slot-detail-title,
+  .page-timetable .slot-title {
+    font-size: 1.3rem !important;
+  }
+
+  .page-timetable .slot-detail-speaker,
+  .page-timetable .slot-speaker {
+    font-size: 1.1rem !important;
+  }
+
+  .page-timetable .slot-open-label {
+    font-size: 1rem;
+  }
+}
+
+/* モバイルでは開催日時→会場→現地参加→オンライン参加の順にする。
+   PCの2×2では現在の配置（開催日時→現地参加→会場→オンライン参加）を維持する。 */
+@media screen and (max-width: 720px) {
+  .event-summary-grid .summary-item:nth-child(1) { order: 1; }
+  .event-summary-grid .summary-item:nth-child(2) { order: 3; }
+  .event-summary-grid .summary-item:nth-child(3) { order: 2; }
+  .event-summary-grid .summary-item:nth-child(4) { order: 4; }
+}
+
+/* タイムテーブル詳細：タイトル・講演者の重複をなくし、1つの枠が展開する見た目にする */
+.slot-detail-card {
+  border: 2px solid var(--color-primitive-blue-900);
+  border-radius: 12px;
+  background: #f7faff;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 85, 173, 0.12);
+}
+
+.slot-detail-card .slot-detail-inner {
+  border-left: 6px solid var(--color-primitive-blue-900);
+  padding: 10px 12px 10px 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.slot-detail-card .talk-toggle {
+  border: 0;
+  border-radius: 8px;
+  min-height: 0;
+  padding: 6px 0 8px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.slot-detail-card .talk-toggle:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.slot-detail-card .slot-detail {
+  margin-top: 10px;
+  border: 0;
+  padding: 10px 0 0;
+  box-shadow: none;
+  background: transparent;
+  border-top: 1px solid var(--color-neutral-solid-gray-200);
+  border-radius: 0;
+}
+
+.slot-detail-card .slot-detail-title,
+.slot-detail-card .slot-detail-speaker {
+  display: block;
+  max-width: none !important;
+  margin: 4px 0 !important;
+}
+
+.slot-detail-card .slot-detail-title {
+  color: var(--color-primitive-blue-1200);
+  font-weight: bold;
+}
+
+.slot-detail-card .slot-detail-speaker {
+  color: #2c2f36;
+}
+
+
+
+/* 追加調整：講演一覧とタイムテーブルの文字サイズ・余白 */
+@media screen and (min-width: 640px) {
+  /* 講演一覧：タイトルと名前を一回り小さく */
+  .talk-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .talk-card .talk-meta b {
+    font-size: 1.55rem;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  /* 講演一覧：所属・専門を少し大きくし、名前との間に余白を作る */
+  .talk-card .talk-meta {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+}
+
+/* タイムテーブル：講演者名を少しだけ大きく */
+.page-timetable .slot-detail-speaker,
+.page-timetable .slot-speaker {
+  font-size: 1.08em !important;
+}
+
+.page-timetable .slot-detail-card .slot-detail-speaker {
+  margin-top: 8px !important;
+}
+
+/* タイムテーブル：kickerを消した後の余白を整える */
+.page-timetable .slot-detail-card .slot-detail-title {
+  margin-top: 0 !important;
+}
+
+
+/* 追加調整：青系配色、講演一覧サイズ、開催日時、トップ見出し */
+
+/* サブページ上部と運営情報を、明るい青系に変更 */
+.sub-hero {
+  background: #e8f1fe;
+  color: var(--color-primitive-blue-1200);
+  border: 1px solid var(--color-primitive-blue-200);
+}
+
+.sub-hero h1,
+.sub-hero p {
+  color: var(--color-primitive-blue-1200);
+}
+
+#article-us {
+  background: #e8f1fe;
+  color: var(--color-primitive-blue-1200);
+  border-color: var(--color-primitive-blue-200);
+}
+
+/* 講演内容ページのタイトル・名前は落ち着いた青系で統一 */
+.talk-card h3,
+.talk-card .talk-meta b {
+  color: var(--color-primitive-blue-1000);
+}
+
+/* 講演一覧：タイトルと名前をPC/スマホ両方で一周り小さく */
+@media screen and (min-width: 640px) {
+  .talk-card h3,
+  .talk-card .talk-meta b {
+    font-size: 1.35rem;
+    line-height: 1.35;
+  }
+
+  .talk-card .talk-meta {
+    font-size: 1.12rem;
+    line-height: 1.65;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .talk-card h3,
+  .talk-card .talk-meta b {
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .talk-card .talk-meta {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+/* 開催日時：5月の位置を揃え、カード幅が狭くても溢れにくい表示にする */
+.date-time-lines {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.35em;
+  row-gap: 0.15em;
+  align-items: baseline;
+  font-size: clamp(0.95rem, 1.45vw, 1.35rem) !important;
+  line-height: 1.5 !important;
+}
+
+.date-time-lines span {
+  display: inline !important;
+}
+
+.date-year {
+  white-space: nowrap;
+}
+
+.date-year-empty::before {
+  content: "";
+}
+
+.date-main {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* PC幅でもカードが狭い時に不自然に溢れないようにする */
+.summary-item {
+  min-width: 0;
+}
+
+.summary-item strong {
+  min-width: 0;
+}
+
+/* トップ見出し：意味のある区切りで改行されるようにする */
+.event-name-lines {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.35em;
+  row-gap: 0.1em;
+  max-width: 900px !important;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.event-name-lines span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 639px) {
+  .event-name-lines {
+    font-size: 1.8rem !important;
+    row-gap: 0.15em;
+  }
+
+  .date-time-lines {
+    font-size: 1.05rem !important;
+  }
+}
+
+
+/* パンくず風リンク */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: center;
+  max-width: min(1120px, 100%);
+  margin: 16px auto 0;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  color: #4b5563;
+  font-size: 0.98rem;
+}
+
+.breadcrumb a {
+  color: var(--color-primitive-blue-900);
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  line-height: 1.6;
+}
+
+/* タイムテーブル：表形式から日別タイムライン形式へ */
+.timetable-desktop.table-wrapper {
+  max-width: min(1120px, 100%);
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: min(1120px, 100%);
+  margin: 28px auto 0;
+}
+
+.timeline-day {
+  min-width: 0;
+  background: #f8fbff;
+  border: 1px solid var(--color-primitive-blue-200);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.timeline-day-title {
+  max-width: none !important;
+  margin: 0 0 16px !important;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--color-primitive-blue-900);
+  color: var(--color-primitive-blue-1200);
+  font-size: 1.45rem !important;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 8.5em minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid var(--color-neutral-solid-gray-200);
+  border-left: 6px solid var(--color-primitive-blue-900);
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 85, 173, 0.08);
+}
+
+.timeline-card.is-long-slot {
+  border-left-width: 10px;
+  background: #eef5ff;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.timeline-card.is-long-slot .duration-badge {
+  background: var(--color-primitive-yellow-300);
+  color: #2c2f36;
+}
+
+.timeline-time {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-primitive-blue-1200);
+  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.duration-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--color-primitive-blue-200);
+  color: var(--color-primitive-blue-1200);
+  font-size: 0.86rem;
+  font-weight: bold;
+}
+
+.break-slot-card {
+  border-left-color: var(--color-neutral-solid-gray-300);
+  background: #f7f7f8;
+}
+
+.timeline-card .slot-detail-inner {
+  border-left: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.timeline-card .talk-toggle {
+  border: 0;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.timeline-card .talk-toggle:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.timeline-card .slot-detail-title {
+  font-size: 1.08rem !important;
+  line-height: 1.45;
+}
+
+.timeline-card .slot-detail-speaker {
+  font-size: 1.02rem !important;
+}
+
+.timeline-card .slot-detail {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-primitive-blue-200);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
+}
+
+@media screen and (max-width: 760px) {
+  .timeline-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-day {
+    padding: 14px;
+  }
+
+  .timeline-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .timeline-time {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+  }
+
+  .breadcrumb {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* 最終調整：パンくずを最上部に重ねる、タイムテーブルは左時間列の表形式に戻す */
+
+/* container内の先頭に置いたパンくずを写真・ヘッダーの上に重ねる */
+.container {
+  position: relative;
+}
+
+.breadcrumb-overlay {
+  position: absolute;
+  top: 8px;
+  left: clamp(14px, 3vw, 36px);
+  right: clamp(14px, 3vw, 36px);
+  z-index: 10;
+  max-width: none;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
+
+.breadcrumb-overlay a {
+  color: var(--color-primitive-blue-900);
+}
+
+/* 紹介動画カード内SNS */
+.movie-sns-block {
+  max-width: 760px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.movie-sns-block h3 {
+  max-width: none;
+  margin: 0 0 8px;
+  color: var(--color-primitive-blue-1200);
+}
+
+.movie-sns-block .socialicons {
+  margin-top: 8px;
+}
+
+/* タイムテーブル：左に時間、右に各日のカードを置く表形式 */
+.timetable-desktop.table-wrapper {
+  max-width: min(1120px, 100%);
+  margin: 28px auto 0;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--color-neutral-solid-gray-200);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 85, 173, 0.06);
+}
+
+.timetable-table-enhanced {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  font-size: 100%;
+}
+
+.timetable-table-enhanced th,
+.timetable-table-enhanced td {
+  padding: 14px;
+  border-bottom: 1px solid var(--color-neutral-solid-gray-200);
+  vertical-align: top;
+}
+
+.timetable-table-enhanced thead th {
+  position: sticky;
+  top: 0;
+  background: #e8f1fe;
+  color: var(--color-primitive-blue-1200);
+  z-index: 2;
+}
+
+.timetable-table-enhanced tbody th {
+  width: 8.5em;
+  white-space: nowrap;
+  background: #f8fbff;
+  color: var(--color-primitive-blue-1200);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.timetable-table-enhanced td {
+  min-width: 260px;
+}
+
+/* 既存のtimeline系指定を表内では無効化 */
+.timetable-table-enhanced .slot-card {
+  display: block;
+  position: relative;
+  border: 2px solid var(--color-primitive-blue-200);
+  border-left: 6px solid var(--color-primitive-blue-900);
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,85,173,.08);
+}
+
+.timetable-table-enhanced .slot-card.is-long-slot,
+.mobile-slot .slot-card.is-long-slot {
+  border-left-width: 10px;
+  background: #eef5ff;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.timetable-table-enhanced .duration-badge,
+.mobile-slot .duration-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-bottom: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--color-primitive-blue-200);
+  color: var(--color-primitive-blue-1200);
+  font-size: 0.86rem;
+  font-weight: bold;
+}
+
+.timetable-table-enhanced .is-long-slot .duration-badge,
+.mobile-slot .is-long-slot .duration-badge {
+  background: var(--color-primitive-yellow-300);
+  color: #2c2f36;
+}
+
+.timetable-table-enhanced .slot-detail-inner,
+.mobile-slot .slot-detail-inner {
+  border-left: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.timetable-table-enhanced .talk-toggle,
+.mobile-slot .talk-toggle {
+  border: 0;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.timetable-table-enhanced .talk-toggle:hover,
+.mobile-slot .talk-toggle:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.timetable-table-enhanced .slot-detail,
+.mobile-slot .slot-detail {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-primitive-blue-200);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
+}
+
+@media screen and (max-width: 760px) {
+  .breadcrumb-overlay {
+    top: 6px;
+    left: 10px;
+    right: 10px;
+    font-size: 0.86rem;
+    border-radius: 14px;
+  }
+}
+
+
+/* パンくず導入後の見出し位置・ナビサイズ・SNS説明 */
+.sub-hero h1 {
+  margin-top: 1.2em;
+}
+
+/* 色付きヘッダー領域自体の高さや下端は大きく変えず、見出しだけ下げる */
+.sub-hero {
+  justify-content: flex-start;
+}
+
+.site-nav a {
+  font-size: 1.22rem;
+  padding: 14px 24px;
+}
+
+@media screen and (max-width: 639px) {
+  .site-nav a {
+    font-size: 1.15rem;
+    padding: 13px 18px;
+  }
+}
+
+.movie-sns-block .sns-note {
+  max-width: 760px;
+  margin: 8px auto 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.movie-sns-block .socialicons {
+  margin-top: 14px;
+}
+
+
+/* SNS説明文のサイズを通常の説明文と揃える */
+.movie-sns-block .sns-note {
+  font-size: 1.35rem;
+  line-height: 1.8;
+}
+
+@media screen and (max-width: 639px) {
+  .movie-sns-block .sns-note {
+    font-size: 1.1rem;
+    line-height: 1.75;
+  }
+}
+
+
+/* 動画・地図サイズ調整：16:9を維持しつつ最大幅を720pxに揃える */
+#article-movie .video-container {
+  width: min(72vw, 720px);
+  max-width: 100%;
+  padding-bottom: min(40.5vw, 405px); /* 720px × 9 / 16 = 405px */
+}
+
+/* Google Mapも動画と同程度の最大横幅にする */
+#article-map .map-container {
+  max-width: min(72vw, 720px);
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  #article-movie .video-container {
+    width: min(88vw, 720px);
+    padding-bottom: min(49.5vw, 405px);
+  }
+
+  #article-map .map-container {
+    max-width: min(88vw, 720px);
+  }
+}
+
+@media screen and (max-width: 639px) {
+  #article-movie .video-container {
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
+
+  #article-map .map-container {
+    max-width: 100%;
+  }
+}
+
+
+/* 開催日時カード：2026年を1行目、各日程を2・3行目に表示。
+   通常は大きめのまま、狭いカードでは収まる範囲で縮小する。 */
+.date-time-lines {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  row-gap: 0.15em;
+  align-items: start;
+  line-height: 1.45 !important;
+  font-size: clamp(1.05rem, 1.25vw, 1.35rem) !important;
+}
+
+.date-time-lines span {
+  display: block !important;
+}
+
+.date-year-full {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.date-main {
+  white-space: nowrap;
+  min-width: 0;
+}
+
+@container (max-width: 360px) {
+  .date-time-lines {
+    font-size: clamp(0.92rem, 4.3cqw, 1.15rem) !important;
+  }
+}
+
+/* container query 非対応環境向け。カードが狭い画面では少しだけ縮める */
+.summary-item {
+  container-type: inline-size;
+}
+
+@media screen and (max-width: 900px) {
+  .date-time-lines {
+    font-size: clamp(0.98rem, 2.4vw, 1.25rem) !important;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .date-time-lines {
+    font-size: clamp(0.9rem, 4.3vw, 1.08rem) !important;
+  }
+}
