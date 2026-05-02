@@ -1,0 +1,31 @@
+{
+  "eventName": "第99回五月祭 10分で伝えます！東大研究最前線",
+  "shortName": "10分で伝えます！東大研究最前線",
+  "datesText": "2026年5月16日・17日",
+  "venueName": "東京大学本郷キャンパス 工学部3号館 2階 31号講義室",
+  "venueAddress": "〒113-8656 東京都文京区本郷7-3-1",
+  "participation": {
+    "onsite": "現地参加は予約不要です。",
+    "online": "オンライン参加にはZoomウェビナーの事前登録が必要です。",
+    "zoomNote": "Zoomアプリのダウンロードは不要ですが、事前に入れておくと参加しやすくなります。"
+  },
+  "links": {
+    "mayfesOfficial": "https://visitor.gogatsusai.jp/project/016",
+    "vote": "https://ut-10min.github.io/vote.html",
+    "zoomRegister": "https://u-tokyo-ac-jp.zoom.us/webinar/register/WN_HEToUcblRRCA3si26vsKYQ",
+    "contactForm": "https://forms.gle/yDF9upZH6AzfChyFA",
+    "googleMap": "https://maps.app.goo.gl/St9DsVoq5JvoLN61A",
+    "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.470268188464!2d139.75834607507562!3d35.71465132813866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c31d456c3b7%3A0x7e0c15037ed16d83!2z5belM-WPt-mkqOWbs-abuOWupCDmnbHkuqzlpKflrablt6Xlrabjg7vmg4XloLHnkIblt6Xlrablm7Pmm7jppKg!5e0!3m2!1sja!2sjp!4v1683867333748!5m2!1sja!2sjp",
+    "youtubeEmbed": "https://www.youtube.com/embed/mLT0P1CSfqg"
+  },
+  "sns": {
+    "x": "https://twitter.com/ut10min",
+    "instagram": "https://www.instagram.com/ut10min/",
+    "facebook": "https://www.facebook.com/10minScience/",
+    "youtube": "https://www.youtube.com/@ut10min-youtube"
+  },
+  "organizer": {
+    "groupName": "大学院生詰め合わせ",
+    "representative": "上杉佑人"
+  }
+}

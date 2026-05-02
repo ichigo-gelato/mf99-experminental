@@ -1,87 +1,35 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="2026年度東京大学五月祭企画「10分で伝えます！東大研究最前線」のウェブページです。最先端の研究について10分間で分かりやすくお伝えします。">
-  <meta name="keywords" content="東京大学,東大,五月祭,学園祭,講演,2026,10分で伝えます,10分,東大研究最前線,研究最前線,研究">
-  <title>講演一覧 | 2026年度五月祭「10分で伝えます！東大研究最前線」</title>
-  <link rel="stylesheet" href="css/main.css?1542599248160">
+  <title>講演一覧｜第99回五月祭 10分で伝えます！東大研究最前線</title>
+  <link rel="stylesheet" href="css/main.css">
   <link rel="icon" href="img/favicon.ico">
-
-  <!-- OGP -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:site" content="@ut10min">
-  <meta name="twitter:creator" content="@ut10min">
-  <meta name="twitter:title" content="2026年度五月祭「10分で伝えます！東大研究最前線」 - 講演トップ">
-  <meta name="twitter:description" content="2026年度東京大学五月祭企画「10分で伝えます！東大研究最前線」のウェブページです。最先端の研究について10分間で分かりやすくお伝えします。">
-  <meta name="twitter:image" content="https://ut-10min.github.io/mf99/img/mf_min.png">
-  <meta property="og:title" content="2026年度五月祭「10分で伝えます！東大研究最前線」 - 講演トップ">
-  <meta property="og:url" content="https://ut-10min.github.io/mf99/timetable.html">
-  <meta property="og:image" content="https://ut-10min.github.io/mf99/img/mf_min.png">
-  <meta property="og:site_name" content="2025年度五月祭「10分で伝えます！東大研究最前線」">
-
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-
-  <!-- Mustache -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-
-  <!-- data -->
-  <script src="js/data.js?202511162152"></script>
-
-  <!-- user script -->
-  <script src="js/main.js?2025110802"></script>
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123778672-1"></script>
-  <!--<script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-123778672-1');
-    </script>-->
-
-  <script id="template" type="x-tmpl-mustache">
-<dl>
-{{#talks}}
-<a name="{{title}}" class=anchor></a>
-<dt class=talk-header><span class=title>{{title}}</span>
-<br />
-<span class=name>{{name}}</span>
-{{#major}}
-<span class=major>（{{affiliation}}｜専門：{{major}}）</span>
-{{/major}}
-{{#chairperson}}
-<span class=major>（進行：{{chairperson}}）</span>
-{{/chairperson}}
-</dt>
-<dd class=talk-abs>{{abstract}}<br>{{info}}</dd>
-{{/talks}}
-</dl>
-    </script>
 </head>
 
 <body>
-  <div class="fixed-nav">
-    <div class="fixed-nav-inner">
-      <a href="/">トップ</a>
-      <!-- <a href="index.html" class="active">トップ</a> -->
-      <a href="index.html">講演トップ</a>
-      <a href="talks.html" class="active">講演一覧</a>
-      <a href="timetable.html">タイムテーブル</a>
-    </div>
-  </div>
   <div class="container">
-    <div class="full-article" id="article-talks-intro">
-      <h2>講演一覧</h2>
-      <div class="article-headline">
-        <h3>現在準備中です。</h3>
-      </div>
-    </div>
-  </div>
-</body>
+    <header class="sub-hero">
+      <h1>講演一覧</h1>
+      <p>各講演のタイトル、講演者、所属研究科、専攻分野、講演内容を掲載しています。</p>
+    </header>
 
+    <nav class="site-nav" aria-label="ページメニュー">
+      <a href="index.html">トップ</a>
+      <a href="talks.html" aria-current="page">講演一覧</a>
+      <a href="timetable.html">タイムテーブル</a>
+    </nav>
+
+    <main>
+      <section class="full-article">
+        <h2>講演内容</h2>
+        <div id="talks-list" class="talk-card-grid" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/talks.js"></script>
+</body>
 </html>
