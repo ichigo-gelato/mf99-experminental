@@ -13,13 +13,18 @@
 
 <body>
   <div class="container">
+    <nav class="breadcrumb breadcrumb-overlay" aria-label="現在位置">
+      <a href="https://ut-10min.github.io/">団体トップページ</a>
+      <span aria-hidden="true">＞</span>
+      <span>第99回五月祭 講演情報トップ</span>
+    </nav>
+
     <header id="title-hero">
       <div id="title-logo">
         <img src="img/title.png" fetchpriority="high" decoding="async" alt="10分で伝えます！東大研究最前線">
       </div>
       <p class="hero-label">第99回五月祭 講演情報トップ</p>
     </header>
-
     <nav class="site-nav" aria-label="ページ内メニュー">
       <a href="index.html" aria-current="page">トップ</a>
       <a href="talks.html">講演一覧</a>
@@ -29,11 +34,22 @@
     <main>
       <section class="full-article highlight-article" id="article-event">
         <p class="eyebrow">現地・オンライン同時開催</p>
-        <h1 id="event-name">第99回五月祭で講演企画を行います</h1>
+        <h1 id="event-name" class="event-name-lines">
+          <span>第99回五月祭</span>
+          <span>10分で伝えます！</span>
+          <span>東大研究最前線</span>
+        </h1>
         <div class="event-summary-grid">
           <div class="summary-item">
-            <span class="summary-label">開催日</span>
-            <strong data-config="datesText">2026年5月16日・17日</strong>
+            <span class="summary-label">開催日・時間</span>
+            <strong class="date-time-lines" data-config="datesText">
+              <span class="date-year">2026年</span><span class="date-main">5月16日（土）10:00–18:00</span>
+              <span class="date-year date-year-empty" aria-hidden="true"></span><span class="date-main">5月17日（日）10:00–17:00</span>
+            </strong>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">現地参加</span>
+            <strong>予約不要</strong>
           </div>
           <div class="summary-item">
             <span class="summary-label">会場</span>
@@ -41,10 +57,6 @@
               <span data-config="venueName">東京大学本郷キャンパス 工学部3号館 2階 31号講義室</span>
               <a class="inline-map-link" data-link="googleMap" href="#" target="_blank" rel="noopener">Google Map リンク</a>
             </strong>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">現地参加</span>
-            <strong>予約不要</strong>
           </div>
           <div class="summary-item">
             <span class="summary-label">オンライン参加</span>
@@ -60,7 +72,7 @@
 
         <p class="section-note">
           <!--企画を楽しんでいただけましたら、ぜひ五月祭公式の企画投票ページから投票をお願いします。<br>
-          オンラインからも投票できます。--> 五月祭当日には五月祭公式ページより企画への投票が可能になります。
+          オンラインからも投票できます。--> 五月祭当日には企画への投票が可能になります。
         </p>
       </section>
 
@@ -99,56 +111,39 @@
           </article>
         </div>
       </section>
-
-      <section class="full-article" id="article-guide">
-        <h2>講演内容とタイムテーブル</h2>
-        <div class="two-column">
-          <article class="info-tile">
-            <h3>講演一覧</h3>
-            <p>各講演のタイトル、講演者、所属研究科、専攻分野、100字以内の説明を掲載しています。</p>
-            <div class="button-group">
-              <a class="button-link secondary" href="talks.html">講演一覧を見る</a>
-            </div>
-          </article>
-          <article class="info-tile">
-            <h3>タイムテーブル</h3>
-            <p>日ごとの開始時刻・終了時刻を確認できます。講演枠から講演内容も見られます。</p>
-            <div class="button-group">
-              <a class="button-link secondary" href="timetable.html">タイムテーブルを見る</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
       <section class="full-article" id="article-movie">
-        <h2>紹介動画</h2>
+        <h2>紹介動画、SNS</h2>
         <div class="video-container" id="video-container">
           <p class="section-note">動画URLを data/config.json に設定してください。</p>
+        </div>
+        <div class="movie-sns-block">
+          <h3>SNS</h3>
+          <p class="section-note sns-note">各種の公式SNSはこちらからどうぞ！感想等は <b>#ut10min</b> をつけて呟いてください。</p>
+          <p class="center socialicons" id="socialicons">
+            <a data-sns="x" href="#" target="_blank" rel="noopener" aria-label="X">
+              <img src="img/X.png" alt="X">
+            </a>
+            <a data-sns="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+              <img src="img/facebook.png" alt="Facebook">
+            </a>
+            <a data-sns="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+              <img src="img/instagram.png" alt="Instagram">
+            </a>
+            <a data-sns="youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube">
+              <img src="img/youtube.png" alt="YouTube">
+            </a>
+          </p>
         </div>
       </section>
 
       <section class="full-article" id="article-links">
-        <h2>各種リンク・SNS</h2>
+        <h2>問い合わせ</h2>
+        <p>
+          企画へのご質問、講演依頼、運営へのご連絡は、お問い合わせフォームからお送りください。
+        </p>
         <div class="button-group">
-          <a class="button-link secondary large" href="https://ut-10min.github.io/" target="_blank" rel="noopener">団体トップページ</a>
-          <a class="button-link secondary large" data-link="mayfesOfficial" href="#" target="_blank" rel="noopener">五月祭公式ページ</a>
-          <a class="button-link secondary large" data-link="vote" href="#" target="_blank" rel="noopener">企画投票ページ</a>
           <a class="button-link secondary large" data-link="contactForm" href="#" target="_blank" rel="noopener">お問い合わせフォーム</a>
         </div>
-        <p class="center socialicons" id="socialicons">
-          <a data-sns="x" href="#" target="_blank" rel="noopener" aria-label="X">
-            <img src="img/X.png" alt="X">
-          </a>
-          <a data-sns="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
-            <img src="img/facebook.png" alt="Facebook">
-          </a>
-          <a data-sns="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-            <img src="img/instagram.png" alt="Instagram">
-          </a>
-          <a data-sns="youtube" href="#" target="_blank" rel="noopener" aria-label="YouTube">
-            <img src="img/youtube.png" alt="YouTube">
-          </a>
-        </p>
       </section>
 
         <section class="full-article" id="article-map">
@@ -165,6 +160,10 @@
         <h2>運営団体について</h2>
         <p>「10分で伝えます！東大研究最前線」は、本企画だけのために集結した東京大学の大学院生・若手研究者有志によって運営を行っています。</p>
         <p>運営統括: <span data-config="organizerRepresentative">上杉佑人</span></p>
+        <div id="organizer-members" class="organizer-members" hidden>
+          <h3>運営メンバー</h3>
+          <ul id="organizer-members-list"></ul>
+        </div>
       </section>
     </main>
   </div>

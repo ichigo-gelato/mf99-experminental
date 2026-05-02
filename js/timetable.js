@@ -14,26 +14,60 @@ function makeTalkMap(talks) {
   }, {});
 }
 
+function timeToMinutes(value) {
+  const [hour, minute] = value.split(":").map(Number);
+  return hour * 60 + minute;
+}
+
+function durationMinutes(item) {
+  return Math.max(0, timeToMinutes(item.end) - timeToMinutes(item.start));
+}
+
+function durationLabel(item) {
+  return `${durationMinutes(item)}分`;
+}
+
 function slotContent(item, talkMap) {
+  const minutes = durationMinutes(item);
+  const isLong = minutes >= 50;
+  const durationClass = isLong ? " is-long-slot" : "";
+
+  if (!item) {
+    return "";
+  }
+
   if (item.type === "break") {
-    return `<div class="break-slot">${item.title || "休憩"}</div>`;
+    return `
+      <div class="slot-card break-slot-card${durationClass}">
+        <span class="duration-badge">${durationLabel(item)}</span>
+        <div class="break-slot">${item.title || "休憩"}</div>
+      </div>
+    `;
   }
 
   const talk = talkMap[item.talkId];
   if (!talk) {
-    return `<div class="break-slot">講演情報未設定</div>`;
+    return `
+      <div class="slot-card slot-detail-card${durationClass}">
+        <span class="duration-badge">${durationLabel(item)}</span>
+        <div class="break-slot">講演情報未設定</div>
+      </div>
+    `;
   }
 
   return `
-    <div class="slot-card">
-      <button class="talk-toggle" type="button" aria-expanded="false" aria-label="${talk.title} の詳細を開く">
-        <span class="slot-title">${talk.title}</span>
-        <span class="slot-speaker">${talk.speaker}</span>
-        <span class="slot-open-label">詳細を開く</span>
-      </button>
-      <div class="slot-detail">
-        <p><b>${talk.affiliation}</b>｜${talk.field}</p>
-        <p>${talk.description}</p>
+    <div class="slot-card slot-detail-card${durationClass}">
+      <span class="duration-badge">${durationLabel(item)}</span>
+      <div class="slot-detail-inner">
+        <button class="talk-toggle" type="button" aria-expanded="false" aria-label="${talk.title} の詳細を開く">
+          <span class="slot-detail-title">${talk.title}</span>
+          <span class="slot-detail-speaker"><b>講演者：</b>${talk.speaker}</span>
+          <span class="slot-open-label">詳細を開く</span>
+        </button>
+        <div class="slot-detail" role="region" aria-label="${talk.title} の講演詳細">
+          <p class="slot-detail-affiliation"><b>所属・専攻：</b>${talk.affiliation}｜${talk.field}</p>
+          <p class="slot-detail-abstract"><b>要旨：</b>${talk.description}</p>
+        </div>
       </div>
     </div>
   `;
@@ -74,7 +108,7 @@ function renderDesktop(schedule, talkMap) {
     </tbody>
   `;
 
-  desktop.innerHTML = `<table class="timetable-table">${thead}${tbody}</table>`;
+  desktop.innerHTML = `<table class="timetable-table timetable-table-enhanced">${thead}${tbody}</table>`;
 }
 
 function renderMobile(schedule, talkMap) {
@@ -104,7 +138,8 @@ function renderMobile(schedule, talkMap) {
     panel.dataset.date = day.date;
     if (index !== 0) panel.hidden = true;
 
-    panel.innerHTML = grouped[day.date].map((item) => `
+    const items = grouped[day.date].sort((a, b) => `${a.start}-${a.end}`.localeCompare(`${b.start}-${b.end}`));
+    panel.innerHTML = items.map((item) => `
       <article class="mobile-slot">
         <div class="mobile-time">${item.start}–${item.end}</div>
         ${slotContent(item, talkMap)}
