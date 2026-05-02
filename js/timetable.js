@@ -1,124 +1,164 @@
-function construstTimeTable(timeTable, talksData) {
-    return Object.keys(timeTable)
-        .filter(function (k) { return timeTable[k]; })
-        .sort()
-        .map(function (time) {
-            console.log(time);
-            var name = timeTable[time];
-            console.log(name);
-
-            var index = 0;
-            var talk = talksData.filter(function (t) { return t.name.indexOf(name) == 0; })[index];
-            console.log(talk)
-            // 何部目か判定
-            if (
-                (name == "第1部") ||
-                (name == "第2部") ||
-                (name == "第3部") ||
-                (name == "第4部")
-            ) {
-                return { time: name, name: "", title: "", major: "" };
-            }
-
-            // 改行
-            else if (name == "改行") {
-                return { time: "\xa0", name: "\xa0", title: "", major: "" };
-            }
-
-            // 休憩・座談会
-            else if (name.indexOf("休憩・座談会") == 0) {
-                return { time: time, name: "", title: name, major: "" };
-            }
-
-            // 平野さんWS
-            else if (name == "平野WS") {
-                return {
-                    time: time,
-                    name: "ワークショップ：平野力也",
-                    title: "ワークショップ：骨の鑑定入門：これってヒト？イヌ？シカ？",
-                    major: "理学系研究科"
-                };
-            }
-
-            // 平城さんWS
-            else if (name == "平城WS") {
-                return {
-                    time: time,
-                    name: "ワークショップ：平城裕隆",
-                    title: "ワークショップ：騒がしくても話せる音声入力インタフェース",
-                    major: "学際情報学府学際情報学専攻"
-                };
-            }
-            
-            else {
-                if (!talk) {
-                  console.warn("一致しない講演者名: " + name);
-                  return {
-                    time: time,
-                    name: name,  // fallback 表示
-                    title: "(未登録)",
-                    major: ""
-                  };
-                }
-              
-                return {
-                  time: time,
-                  name: talk.name,
-                  title: talk.title,
-                  major: talk.affiliation
-                };
-              }
-            
-            // 通常講演者
-            /*else {
-                return {
-                    time: time,
-                    name: talk.name,
-                    title: talk.title,
-                    major: talk.affiliation
-                };
-            }    */
-        });
-
+function groupBy(array, keyFn) {
+  return array.reduce((acc, item) => {
+    const key = keyFn(item);
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    var DayTable1 = construstTimeTable(day1, data);
-    var DayTable2 = construstTimeTable(day2, data);
+function makeTalkMap(talks) {
+  return talks.reduce((acc, talk) => {
+    acc[talk.id] = talk;
+    return acc;
+  }, {});
+}
 
-    var headlineElement = document.querySelector('.article-headline');
-    if (!headlineElement) {
-        return;
-    }
+function slotContent(item, talkMap) {
+  if (item.type === "break") {
+    return `<div class="break-slot">${item.title || "休憩"}</div>`;
+  }
 
-    function escapeHtml(value) {
-        return String(value)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
+  const talk = talkMap[item.talkId];
+  if (!talk) {
+    return `<div class="break-slot">講演情報未設定</div>`;
+  }
 
-    function renderTable(header, tableData) {
-        var rows = tableData.map(function (row) {
-            return ''
-                + '<tr>'
-                + '<td class=time valign="top">' + escapeHtml(row.time || '') + '</td>'
-                + '<td class=title valign="top">' + (row.title || '') + '</td>'
-                + '<td class=name valign="top">' + escapeHtml(row.name || '') + '</td>'
-                + '</tr>';
-        }).join('');
+  return `
+    <div class="slot-card">
+      <button class="talk-toggle" type="button" aria-expanded="false" aria-label="${talk.title} の詳細を開く">
+        <span class="slot-title">${talk.title}</span>
+        <span class="slot-speaker">${talk.speaker}</span>
+        <span class="slot-open-label">詳細を開く</span>
+      </button>
+      <div class="slot-detail">
+        <p><b>${talk.affiliation}</b>｜${talk.field}</p>
+        <p>${talk.description}</p>
+      </div>
+    </div>
+  `;
+}
 
-        return ''
-            + '<h3>' + escapeHtml(header) + '</h3>'
-            + '<table class=time-table>'
-            + rows
-            + '</table>';
-    }
+function renderDesktop(schedule, talkMap) {
+  const desktop = document.getElementById("timetable-desktop");
+  if (!desktop) return;
 
-    var rendered1 = renderTable("5/24 (土)", DayTable1);
-    var rendered2 = renderTable("5/25 (日)", DayTable2);
+  const days = [...new Map(schedule.map((item) => [item.date, item.dateLabel])).entries()];
+  const times = [...new Set(schedule.map((item) => `${item.start}-${item.end}`))].sort();
 
-    headlineElement.innerHTML = rendered1 + "<br />" + rendered2;
-});
+  const byDateTime = new Map();
+  schedule.forEach((item) => {
+    byDateTime.set(`${item.date}|${item.start}-${item.end}`, item);
+  });
+
+  const thead = `
+    <thead>
+      <tr>
+        <th>時間</th>
+        ${days.map(([, label]) => `<th>${label}</th>`).join("")}
+      </tr>
+    </thead>
+  `;
+
+  const tbody = `
+    <tbody>
+      ${times.map((time) => `
+        <tr>
+          <th>${time.replace("-", "–")}</th>
+          ${days.map(([date]) => {
+            const item = byDateTime.get(`${date}|${time}`);
+            return `<td>${item ? slotContent(item, talkMap) : ""}</td>`;
+          }).join("")}
+        </tr>
+      `).join("")}
+    </tbody>
+  `;
+
+  desktop.innerHTML = `<table class="timetable-table">${thead}${tbody}</table>`;
+}
+
+function renderMobile(schedule, talkMap) {
+  const tabs = document.getElementById("day-tabs");
+  const mobile = document.getElementById("timetable-mobile");
+  if (!tabs || !mobile) return;
+
+  const grouped = groupBy(schedule, (item) => item.date);
+  const days = Object.keys(grouped).map((date) => ({
+    date,
+    label: grouped[date][0].dateLabel
+  }));
+
+  tabs.innerHTML = "";
+  mobile.innerHTML = "";
+
+  days.forEach((day, index) => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.textContent = day.label;
+    tab.setAttribute("aria-selected", index === 0 ? "true" : "false");
+    tab.dataset.date = day.date;
+    tabs.appendChild(tab);
+
+    const panel = document.createElement("div");
+    panel.className = "mobile-day-panel";
+    panel.dataset.date = day.date;
+    if (index !== 0) panel.hidden = true;
+
+    panel.innerHTML = grouped[day.date].map((item) => `
+      <article class="mobile-slot">
+        <div class="mobile-time">${item.start}–${item.end}</div>
+        ${slotContent(item, talkMap)}
+      </article>
+    `).join("");
+
+    mobile.appendChild(panel);
+  });
+
+  tabs.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-date]");
+    if (!button) return;
+
+    tabs.querySelectorAll("button").forEach((btn) => {
+      btn.setAttribute("aria-selected", btn === button ? "true" : "false");
+    });
+
+    mobile.querySelectorAll(".mobile-day-panel").forEach((panel) => {
+      panel.hidden = panel.dataset.date !== button.dataset.date;
+    });
+  });
+}
+
+function setupDetailsToggle() {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest(".talk-toggle");
+    if (!button) return;
+
+    const detail = button.parentElement.querySelector(".slot-detail");
+    const label = button.querySelector(".slot-open-label");
+    const isOpen = detail.classList.toggle("is-open");
+    button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    if (label) label.textContent = isOpen ? "詳細を閉じる" : "詳細を開く";
+  });
+}
+
+async function renderTimetable() {
+  try {
+    const [talks, schedule] = await Promise.all([
+      loadJson("data/talks.json"),
+      loadJson("data/schedule.json")
+    ]);
+
+    schedule.sort((a, b) => `${a.date} ${a.start}`.localeCompare(`${b.date} ${b.start}`));
+    const talkMap = makeTalkMap(talks);
+
+    renderDesktop(schedule, talkMap);
+    renderMobile(schedule, talkMap);
+    setupDetailsToggle();
+  } catch (error) {
+    console.error(error);
+    const desktop = document.getElementById("timetable-desktop");
+    if (desktop) desktop.innerHTML = '<p class="section-note">タイムテーブルを読み込めませんでした。</p>';
+  }
+}
+
+document.addEventListener("DOMContentLoaded", renderTimetable);
