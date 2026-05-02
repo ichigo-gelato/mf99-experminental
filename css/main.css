@@ -17,7 +17,7 @@
 }
 
 @media screen and (max-width: 639px) {
-  html { font-size: 70%; }
+  html { font-size: 100%; }
 }
 
 body {
@@ -691,5 +691,171 @@ body {
 @media screen and (max-width: 760px) {
   .talk-toggle {
     min-height: 80px;
+  }
+}
+
+
+/* 講演一覧：講演者名を大きく目立たせる */
+.talk-card .talk-meta {
+  font-size: 135%;
+  line-height: 1.6;
+  color: #1f2937;
+}
+
+.talk-card .talk-meta b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 145%;
+  line-height: 1.35;
+  color: var(--color-primitive-blue-1200);
+}
+
+/* 大画面向け：デジタル庁デザインシステムのリキッドレイアウト方針に寄せる。
+   本文の可読幅は維持しつつ、カード・表・地図などの面情報は広い画面を活かす。 */
+.container {
+  max-width: min(1440px, 100%);
+}
+
+.full-article {
+  padding-left: clamp(18px, 5vw, 72px);
+  padding-right: clamp(18px, 5vw, 72px);
+}
+
+.event-summary-grid,
+.two-column,
+.talk-card-grid,
+.table-wrapper,
+.video-container,
+.map-container {
+  max-width: min(1120px, 100%);
+}
+
+/* 本文は長くなりすぎないよう可読幅を維持 */
+.full-article h1,
+.full-article h2,
+.full-article h3,
+.full-article p,
+.full-article ul,
+.full-article dl {
+  max-width: 760px;
+}
+
+
+/* スマートフォン表示の文字サイズを全体的に拡大 */
+@media screen and (max-width: 639px) {
+  body {
+    font-size: 18px;
+  }
+
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .full-article {
+    padding: 22px 18px 28px;
+  }
+
+  .full-article h1 {
+    font-size: 2rem;
+    line-height: 1.35;
+  }
+
+  .full-article h2 {
+    font-size: 1.75rem;
+    line-height: 1.4;
+  }
+
+  .full-article h3 {
+    font-size: 1.45rem;
+    line-height: 1.45;
+  }
+
+  .full-article p,
+  .full-article li,
+  .full-article dd,
+  .full-article dt {
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  .section-note {
+    font-size: 1.1rem;
+    line-height: 1.75;
+  }
+
+  .site-nav a {
+    font-size: 1.05rem;
+    padding: 12px 16px;
+  }
+
+  .button-link {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.15rem;
+    padding: 15px 18px;
+  }
+
+  .button-link.large {
+    min-width: 0;
+    font-size: 1.2rem;
+    padding: 16px 18px;
+  }
+
+  .summary-item strong {
+    font-size: 1.2rem;
+  }
+
+  .summary-label {
+    font-size: 1rem;
+  }
+
+  .talk-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .talk-card p {
+    font-size: 1.1rem;
+  }
+
+  .talk-card .talk-meta {
+    font-size: 1.2rem;
+  }
+
+  .talk-card .talk-meta b {
+    font-size: 1.45rem;
+  }
+
+  .sub-hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .sub-hero p {
+    font-size: 1.15rem;
+  }
+
+  .day-tabs button {
+    font-size: 1.05rem;
+    padding: 12px 16px;
+  }
+
+  .mobile-slot {
+    font-size: 1.15rem;
+  }
+
+  .mobile-time {
+    font-size: 1.1rem;
+  }
+
+  .slot-title {
+    font-size: 1.3rem;
+  }
+
+  .slot-speaker {
+    font-size: 1.1rem;
+  }
+
+  .slot-open-label {
+    font-size: 1rem;
   }
 }
