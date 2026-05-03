@@ -1846,3 +1846,60 @@ body {
     font-size: clamp(0.9rem, 4.3vw, 1.08rem) !important;
   }
 }
+
+
+/* 今回修正：トップ背景・カード順序・参加方法順序・タイムテーブルバッジ色 */
+
+/* index 上部の淡い水色を白にする */
+#article-event.highlight-article {
+  background: var(--color-neutral-white);
+}
+
+/* スマホでは上部カードを 開催日時→会場→オンライン→現地 の順へ */
+@media screen and (max-width: 720px) {
+  .event-summary-grid .summary-item:nth-child(1) { order: 1; }
+  .event-summary-grid .summary-item:nth-child(2) { order: 3; } /* オンライン */
+  .event-summary-grid .summary-item:nth-child(3) { order: 2; } /* 会場 */
+  .event-summary-grid .summary-item:nth-child(4) { order: 4; } /* 現地 */
+}
+
+/* PCでは参加方法を左オンライン・右現地にし、スマホでは現地→オンラインに戻す */
+@media screen and (max-width: 780px) {
+  #article-participation .two-column .info-tile:nth-child(1) { order: 2; }
+  #article-participation .two-column .info-tile:nth-child(2) { order: 1; }
+}
+
+/* 20分/60分バッジ色を反転：通常20分を黄色、60分を青系にする */
+.timetable-table-enhanced .duration-badge,
+.mobile-slot .duration-badge {
+  background: var(--color-primitive-yellow-300);
+  color: #2c2f36;
+}
+
+.timetable-table-enhanced .is-long-slot .duration-badge,
+.mobile-slot .is-long-slot .duration-badge {
+  background: var(--color-primitive-blue-900);
+  color: #fff;
+}
+
+/* 講演一覧・タイムテーブルのスマホ見出しをパンくず分だけ半行下げる */
+@media screen and (max-width: 639px) {
+  .sub-hero h1 {
+    margin-top: 1.7em;
+  }
+}
+
+
+/* バッジ色の最終上書き：20分=黄色、60分=青 */
+.duration-badge {
+  background: var(--color-primitive-yellow-300) !important;
+  color: #2c2f36 !important;
+}
+
+.is-long-slot .duration-badge,
+.slot-card.is-long-slot .duration-badge,
+.timetable-table-enhanced .is-long-slot .duration-badge,
+.mobile-slot .is-long-slot .duration-badge {
+  background: var(--color-primitive-blue-900) !important;
+  color: #ffffff !important;
+}
