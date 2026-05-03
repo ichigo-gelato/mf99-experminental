@@ -1928,3 +1928,124 @@ body {
   #article-participation .two-column .info-tile:nth-child(1) { order: 1; }
   #article-participation .two-column .info-tile:nth-child(2) { order: 2; }
 }
+/* 運営情報：統括を強調し、メンバーは横並びで省スペース表示 */
+#article-us > p:nth-of-type(2) {
+  max-width: 760px;
+  margin: 18px auto;
+  padding: 16px 20px;
+  background: var(--color-neutral-white);
+  border: 2px solid var(--color-primitive-blue-900);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 85, 173, 0.12);
+  color: var(--color-primitive-blue-1200);
+  font-size: 145%;
+  font-weight: bold;
+  text-align: center;
+}
+
+#article-us > p:nth-of-type(2) span {
+  font-size: 115%;
+}
+
+.organizer-members {
+  max-width: 900px;
+  margin: 22px auto 0;
+  padding: 18px 20px;
+  background: var(--color-neutral-white);
+  border: 1px solid var(--color-primitive-blue-200);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 85, 173, 0.08);
+}
+
+.organizer-members h3 {
+  margin: 0 0 14px;
+  color: var(--color-primitive-blue-1200);
+}
+
+.organizer-members ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.member-group {
+  display: grid;
+  grid-template-columns: 8em minmax(0, 1fr);
+  gap: 10px 14px;
+  align-items: start;
+  font-size: 105%;
+  line-height: 1.7;
+}
+
+.member-role {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-primitive-blue-900);
+  color: #fff;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.member-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.member-chip {
+  display: inline-flex;
+  padding: 2px 0;
+  color: #2c2f36;
+  white-space: nowrap;
+}
+
+.member-chip:not(:last-child)::after {
+  content: "、";
+  color: #6b7280;
+}
+
+@media screen and (max-width: 639px) {
+  #article-us > p:nth-of-type(2) {
+    font-size: 1.25rem;
+    padding: 14px 16px;
+  }
+
+  .member-group {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .member-role {
+    width: fit-content;
+  }
+}
+
+
+/* 運営統括：囲みを弱め、文字サイズの強調だけ残す */
+#article-us > p:nth-of-type(2) {
+  max-width: 760px;
+  margin: 14px auto;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--color-primitive-blue-1200);
+  font-size: 145%;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* デフォルト区分「運営メンバー」は見出しと重複するため、青ラベルを出さず名前だけを横並びにする */
+.member-group-no-role {
+  grid-template-columns: 1fr;
+}
+
+.member-group-no-role .member-names {
+  justify-content: flex-start;
+}
