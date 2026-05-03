@@ -21,20 +21,35 @@ function setHref(selector, value) {
 function setDateTimeText(value) {
   document.querySelectorAll('[data-config="datesText"]').forEach((el) => {
     if (!value) return;
-    const parts = value.split("／");
-    if (parts.length >= 2) {
-      const first = parts[0].replace(/^([0-9]{4}年)/, "$1|").split("|");
-      const year = first.length > 1 ? first[0] : "";
-      const firstMain = first.length > 1 ? first[1] : parts[0].replace(/^2026年/, "");
-      const secondMain = parts[1].replace(/^([0-9]{4}年)/, "");
-      el.innerHTML = `
-        <span class="date-year">${year}</span><span class="date-main">${firstMain}</span>
-        <span class="date-year date-year-empty" aria-hidden="true"></span><span class="date-main">${secondMain}</span>
-      `;
-      el.classList.add("date-time-lines");
-    } else {
-      el.textContent = value;
+
+    let parts = value.split("／").filter(Boolean);
+
+    // Backward compatibility:
+    // "2026年5月16日（土）10:00–18:00／5月17日（日）10:00–17:00"
+    // でも、"2026年" と各日程行に分解する。
+    let year = "";
+    if (parts.length > 0) {
+      const match = parts[0].match(/^([0-9]{4}年)(.*)$/);
+      if (match) {
+        year = match[1];
+        parts[0] = match[2];
+      }
     }
+
+    if (!year && parts[0] && /^[0-9]{4}年$/.test(parts[0])) {
+      year = parts.shift();
+    }
+
+    const lines = [];
+    if (year) {
+      lines.push(`<span class="date-year-full">${year}</span>`);
+    }
+    parts.forEach((part) => {
+      lines.push(`<span class="date-main">${part}</span>`);
+    });
+
+    el.innerHTML = lines.join("");
+    el.classList.add("date-time-lines");
   });
 }
 
@@ -122,17 +137,50 @@ async function applyConfig() {
     const membersList = document.getElementById("organizer-members-list");
     if (membersBlock && membersList && members.length > 0) {
       membersList.innerHTML = "";
+
+      const roleGroups = new Map();
+      const addMember = (role, name) => {
+        if (!name) return;
+        const roleName = role || "運営メンバー";
+        if (!roleGroups.has(roleName)) roleGroups.set(roleName, []);
+        roleGroups.get(roleName).push(name);
+      };
+
       members.forEach((member) => {
-        const li = document.createElement("li");
         if (typeof member === "string") {
-          li.textContent = member;
+          addMember("運営メンバー", member);
         } else {
-          const name = member.name || "";
-          const role = member.role ? `（${member.role}）` : "";
-          li.textContent = `${name}${role}`;
+          addMember(member.role || member.group || "運営メンバー", member.name || "");
         }
+      });
+
+      roleGroups.forEach((names, role) => {
+        const li = document.createElement("li");
+        li.className = "member-group";
+
+        const namesWrap = document.createElement("span");
+        namesWrap.className = "member-names";
+
+        names.forEach((name) => {
+          const chip = document.createElement("span");
+          chip.className = "member-chip";
+          chip.textContent = name;
+          namesWrap.appendChild(chip);
+        });
+
+        if (role !== "運営メンバー") {
+          const roleLabel = document.createElement("span");
+          roleLabel.className = "member-role";
+          roleLabel.textContent = role;
+          li.appendChild(roleLabel);
+        } else {
+          li.classList.add("member-group-no-role");
+        }
+
+        li.appendChild(namesWrap);
         membersList.appendChild(li);
       });
+
       membersBlock.hidden = false;
     }
   } catch (error) {
