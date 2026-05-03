@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="第99回五月祭企画「10分で伝えます！東大研究最前線」のイベントページです。東京大学の大学院生・若手研究者が、最先端の研究を10分でわかりやすく紹介します。">
-  <title>第99回五月祭｜10分で伝えます！東大研究最前線</title>
+  <meta name="description" data-meta-config="metaDescriptions.index" content="第XXX回XX祭企画ページです。">
+  <title data-config="pageTitles.index">第XXX回XX祭｜10分で伝えます！東大研究最前線</title>
   <link rel="preload" as="image" href="img/title_background.png" fetchpriority="high">
   <link rel="preload" as="image" href="img/title.png" fetchpriority="high">
   <link rel="stylesheet" href="css/main.css">
@@ -14,16 +14,16 @@
 <body>
   <div class="container">
     <nav class="breadcrumb breadcrumb-overlay" aria-label="現在位置">
-      <a href="https://ut-10min.github.io/">団体トップページ</a>
+      <a data-link="officialHome" href="#">団体トップページ</a>
       <span aria-hidden="true">＞</span>
-      <span>第99回五月祭 講演情報トップ</span>
+      <span data-config="labels.top">第XXX回XX祭 講演情報トップ</span>
     </nav>
 
     <header id="title-hero">
       <div id="title-logo">
         <img src="img/title.png" fetchpriority="high" decoding="async" alt="10分で伝えます！東大研究最前線">
       </div>
-      <p class="hero-label">第99回五月祭 講演情報トップ</p>
+      <p class="hero-label" data-config="labels.top">第XXX回XX祭 講演情報トップ</p>
     </header>
     <nav class="site-nav" aria-label="ページ内メニュー">
       <a href="index.html" aria-current="page">トップ</a>
@@ -38,11 +38,7 @@
 
           <div class="summary-item">
             <span class="summary-label">開催日・時間</span>
-            <strong class="date-time-lines" data-config="datesText">
-              <span class="date-year-full">2026年</span>
-              <span class="date-main">5月16日（土）10:00–18:00</span>
-              <span class="date-main">5月17日（日）10:00–17:00</span>
-            </strong>
+            <strong class="date-time-lines" data-config="dateTimeText">XXXX年X月XX日 XX:XX–XX:XX</strong>
           </div>
 
           <div class="summary-item">
@@ -53,7 +49,7 @@
           <div class="summary-item">
             <span class="summary-label">会場</span>
             <strong>
-              <span data-config="venueName">東京大学本郷キャンパス 工学部3号館 2階 31号講義室</span>
+              <span data-config="venueName">会場未定</span>
               <a class="inline-map-link" data-link="googleMap" href="#" target="_blank" rel="noopener">Google Map リンク</a>
             </strong>
           </div>
@@ -68,7 +64,7 @@
         <div class="button-group primary-actions">
           <a class="button-link secondary large" href="talks.html">講演一覧</a>
           <a class="button-link secondary large" href="timetable.html">タイムテーブル</a>
-          <a class="button-link large emphasis" data-link="vote" href="https://visitor.gogatsusai.jp/project/016" target="_blank" rel="noopener">企画に投票する</a>
+          <a class="button-link large emphasis" data-link="vote" href="#" target="_blank" rel="noopener">企画に投票する</a>
         </div>
 
         <p class="section-note">
@@ -86,7 +82,7 @@
       </section>
 
       <section class="full-article" id="article-movie">
-        <h2>紹介動画・SNS</h2>
+        <h2>紹介動画、SNS</h2>
         <div class="video-container" id="video-container">
           <p class="section-note">動画URLを data/config.json に設定してください。</p>
         </div>
@@ -130,9 +126,9 @@
             <p>予約不要でご参加いただけます。途中入退場自由です。</p>
             <dl class="basic-list">
               <dt>会場</dt>
-              <dd data-config="venueName">東京大学本郷キャンパス 工学部3号館 2階 31号講義室 (ページ下部で地図を直接確認できます)</dd>
+              <dd data-config="venueName">会場未定</dd>
               <dt>住所</dt>
-              <dd data-config="venueAddress">〒113-8656 東京都文京区本郷7-3-1</dd>
+              <dd data-config="venueAddress">住所未定</dd>
             </dl>
             <div class="button-group">
               <a class="button-link secondary" data-link="googleMap" href="#" target="_blank" rel="noopener">Google Mapで見る</a>
@@ -164,7 +160,7 @@
 <section class="full-article" id="article-us">
         <h2>運営団体について</h2>
         <p>「10分で伝えます！東大研究最前線」は、本企画だけのために集結した東京大学の大学院生・若手研究者有志によって運営を行っています。</p>
-        <p>運営統括: <span data-config="organizerRepresentative">上杉佑人</span></p>
+        <p>運営統括: <span data-config="organizer.representative">未定</span></p>
         <div id="organizer-members" class="organizer-members" hidden>
           <h3>運営メンバー</h3>
           <ul id="organizer-members-list"></ul>

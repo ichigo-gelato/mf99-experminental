@@ -6,10 +6,11 @@ async function loadJson(path) {
   return response.json();
 }
 
-function setText(selector, value) {
-  document.querySelectorAll(selector).forEach((el) => {
-    if (value) el.textContent = value;
-  });
+function getByPath(object, path) {
+  return path.split(".").reduce((current, key) => {
+    if (current == null) return undefined;
+    return current[key];
+  }, object);
 }
 
 function setHref(selector, value) {
@@ -18,16 +19,31 @@ function setHref(selector, value) {
   });
 }
 
+function applyTextConfig(config) {
+  document.querySelectorAll("[data-config]").forEach((el) => {
+    const key = el.dataset.config;
+    if (key === "dateTimeText") return;
+    const value = getByPath(config, key);
+    if (value !== undefined && value !== null && value !== "") {
+      el.textContent = value;
+    }
+  });
+
+  document.querySelectorAll("[data-meta-config]").forEach((el) => {
+    const value = getByPath(config, el.dataset.metaConfig);
+    if (value !== undefined && value !== null && value !== "") {
+      el.setAttribute("content", value);
+    }
+  });
+}
+
 function setDateTimeText(value) {
-  document.querySelectorAll('[data-config="datesText"]').forEach((el) => {
+  document.querySelectorAll('[data-config="dateTimeText"]').forEach((el) => {
     if (!value) return;
 
-    let parts = value.split("／").filter(Boolean);
-
-    // Backward compatibility:
-    // "2026年5月16日（土）10:00–18:00／5月17日（日）10:00–17:00"
-    // でも、"2026年" と各日程行に分解する。
+    const parts = value.split("／").filter(Boolean);
     let year = "";
+
     if (parts.length > 0) {
       const match = parts[0].match(/^([0-9]{4}年)(.*)$/);
       if (match) {
@@ -53,27 +69,6 @@ function setDateTimeText(value) {
   });
 }
 
-function setEventName(value) {
-  const eventName = document.getElementById("event-name");
-  if (!eventName || !value) return;
-
-  eventName.textContent = "";
-  eventName.classList.add("event-name-lines");
-
-  let parts = [];
-  if (value.includes("第99回五月祭") && value.includes("10分で伝えます") && value.includes("東大研究最前線")) {
-    parts = ["第99回五月祭", "10分で伝えます！", "東大研究最前線"];
-  } else {
-    parts = [value];
-  }
-
-  parts.forEach((part) => {
-    const span = document.createElement("span");
-    span.textContent = part;
-    eventName.appendChild(span);
-  });
-}
-
 function createExternalIframe(src, title) {
   const iframe = document.createElement("iframe");
   iframe.src = src;
@@ -84,32 +79,85 @@ function createExternalIframe(src, title) {
   return iframe;
 }
 
+function normalizeGoogleMapLink(config) {
+  const links = config.links || {};
+  const normalizedLinks = { ...links };
+
+  const venueQuery = encodeURIComponent(config.venueName || "会場未定");
+  if (
+    !normalizedLinks.googleMap ||
+    /google\.com\/maps\/embed/.test(normalizedLinks.googleMap)
+  ) {
+    normalizedLinks.googleMap = `https://www.google.com/maps/search/?api=1&query=${venueQuery}`;
+  }
+
+  return normalizedLinks;
+}
+
+function renderOrganizerMembers(config) {
+  const members = config.organizer?.members || [];
+  const membersBlock = document.getElementById("organizer-members");
+  const membersList = document.getElementById("organizer-members-list");
+
+  if (!membersBlock || !membersList || members.length === 0) return;
+
+  membersList.innerHTML = "";
+
+  const roleGroups = new Map();
+  const addMember = (role, name) => {
+    if (!name) return;
+    const roleName = role || "運営メンバー";
+    if (!roleGroups.has(roleName)) roleGroups.set(roleName, []);
+    roleGroups.get(roleName).push(name);
+  };
+
+  members.forEach((member) => {
+    if (typeof member === "string") {
+      addMember("運営メンバー", member);
+    } else {
+      addMember(member.role || member.group || "運営メンバー", member.name || "");
+    }
+  });
+
+  roleGroups.forEach((names, role) => {
+    const li = document.createElement("li");
+    li.className = "member-group";
+
+    const namesWrap = document.createElement("span");
+    namesWrap.className = "member-names";
+
+    names.forEach((name) => {
+      const chip = document.createElement("span");
+      chip.className = "member-chip";
+      chip.textContent = name;
+      namesWrap.appendChild(chip);
+    });
+
+    if (role !== "運営メンバー") {
+      const roleLabel = document.createElement("span");
+      roleLabel.className = "member-role";
+      roleLabel.textContent = role;
+      li.appendChild(roleLabel);
+    } else {
+      li.classList.add("member-group-no-role");
+    }
+
+    li.appendChild(namesWrap);
+    membersList.appendChild(li);
+  });
+
+  membersBlock.hidden = false;
+}
+
 async function applyConfig() {
   try {
     const config = await loadJson("data/config.json");
 
-    setDateTimeText(config.dateTimeText || config.datesText);
-    setText('[data-config="venueName"]', config.venueName);
-    setText('[data-config="venueAddress"]', config.venueAddress);
-    setText('[data-config="organizerRepresentative"]', config.organizer?.representative);
+    applyTextConfig(config);
+    setDateTimeText(config.dateTimeText);
 
-    if (config.eventName) {
-      setEventName(config.eventName);
-      document.title = document.title.replace("第99回五月祭", config.eventName);
-    }
-
-    const links = config.links || {};
-    const normalizedLinks = { ...links };
-
-    const venueQuery = encodeURIComponent(config.venueName || "東京大学本郷キャンパス 工学部3号館");
-    if (
-      !normalizedLinks.googleMap ||
-      /google\.com\/maps\/embed/.test(normalizedLinks.googleMap)
-    ) {
-      normalizedLinks.googleMap = `https://www.google.com/maps/search/?api=1&query=${venueQuery}`;
-    }
-
-    Object.entries(normalizedLinks).forEach(([key, value]) => {
+    const links = normalizeGoogleMapLink(config);
+    Object.entries(links).forEach(([key, value]) => {
       setHref(`[data-link="${key}"]`, value);
     });
 
@@ -132,57 +180,7 @@ async function applyConfig() {
       videoContainer.appendChild(iframe);
     }
 
-    const members = config.organizer?.members || [];
-    const membersBlock = document.getElementById("organizer-members");
-    const membersList = document.getElementById("organizer-members-list");
-    if (membersBlock && membersList && members.length > 0) {
-      membersList.innerHTML = "";
-
-      const roleGroups = new Map();
-      const addMember = (role, name) => {
-        if (!name) return;
-        const roleName = role || "運営メンバー";
-        if (!roleGroups.has(roleName)) roleGroups.set(roleName, []);
-        roleGroups.get(roleName).push(name);
-      };
-
-      members.forEach((member) => {
-        if (typeof member === "string") {
-          addMember("運営メンバー", member);
-        } else {
-          addMember(member.role || member.group || "運営メンバー", member.name || "");
-        }
-      });
-
-      roleGroups.forEach((names, role) => {
-        const li = document.createElement("li");
-        li.className = "member-group";
-
-        const namesWrap = document.createElement("span");
-        namesWrap.className = "member-names";
-
-        names.forEach((name) => {
-          const chip = document.createElement("span");
-          chip.className = "member-chip";
-          chip.textContent = name;
-          namesWrap.appendChild(chip);
-        });
-
-        if (role !== "運営メンバー") {
-          const roleLabel = document.createElement("span");
-          roleLabel.className = "member-role";
-          roleLabel.textContent = role;
-          li.appendChild(roleLabel);
-        } else {
-          li.classList.add("member-group-no-role");
-        }
-
-        li.appendChild(namesWrap);
-        membersList.appendChild(li);
-      });
-
-      membersBlock.hidden = false;
-    }
+    renderOrganizerMembers(config);
   } catch (error) {
     console.error(error);
   }
